@@ -102,7 +102,8 @@ def download_cves(directory):
     r = requests.get('https://nvd.nist.gov/vuln/data-feeds#JSON_FEED')
     for filename in re.findall("nvdcve-1.1-[0-9]*\.json\.zip",r.text):
         print(filename)
-        r_file = requests.get("https://static.nvd.nist.gov/feeds/json/cve/1.0/" + filename, stream=True)
+        r_file = requests.get("https://nvd.nist.gov/feeds/json/cve/1.0/" + filename.replace('1.1','1.0'), stream=True)
+        print("https://nvd.nist.gov/feeds/json/cve/1.0/" + filename.replace('1.1','1.0'))
         with open(directory +"/" + filename, 'wb') as f:
             for chunk in r_file:
                 f.write(chunk)
@@ -160,6 +161,8 @@ def process_cves(directory, results, csv, import_db,myuser,mypassword,myhost,dat
             except (Exception) as e:
                 continue
                 print (str(e)) ##check it
+            for k in cves['cve'].keys():
+                print(k)
             for vendor in cves['cve']['affects']['vendor']['vendor_data']:
                 try:
                     vendor_name = vendor['vendor_name']
