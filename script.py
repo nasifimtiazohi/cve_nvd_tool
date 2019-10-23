@@ -100,7 +100,7 @@ def download_cves(directory):
     else:
         print ("Directory %s already exists" % directory)
     r = requests.get('https://nvd.nist.gov/vuln/data-feeds#JSON_FEED')
-    for filename in re.findall("nvdcve-1.0-[0-9]*\.json\.zip",r.text):
+    for filename in re.findall("nvdcve-1.1-[0-9]*\.json\.zip",r.text):
         print(filename)
         r_file = requests.get("https://static.nvd.nist.gov/feeds/json/cve/1.0/" + filename, stream=True)
         with open(directory +"/" + filename, 'wb') as f:
